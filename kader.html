@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Form Screening - PC GP Ansor Kota Malang</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, 'Segoe UI', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background: #eef5f0;
+            padding: 2rem 1.5rem;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .card {
+            background: white;
+            border-radius: 2rem;
+            box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+
+        .header {
+            background: linear-gradient(115deg, #136b46 0%, #0a4f33 100%);
+            color: white;
+            padding: 1.8rem 2.5rem;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            line-height: 1.3;
+            letter-spacing: -0.3px;
+        }
+
+        .form-body {
+            padding: 2.2rem 2.5rem;
+        }
+
+        .field-group {
+            margin-bottom: 1.8rem;
+        }
+
+        label {
+            font-weight: 600;
+            color: #2a6e46;
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+            letter-spacing: 0.3px;
+        }
+
+        select, input, textarea {
+            width: 100%;
+            padding: 0.85rem 1.2rem;
+            border-radius: 60px;
+            border: 1.5px solid #d0e4db;
+            background: #ffffff;
+            font-size: 0.95rem;
+            transition: 0.2s;
+            outline: none;
+        }
+
+        select:focus, input:focus, textarea:focus {
+            border-color: #1f8a4c;
+            box-shadow: 0 0 0 3px rgba(31, 138, 76, 0.2);
+        }
+
+        .readonly-input {
+            background: #f0f7f2;
+            color: #2c5a44;
+            font-weight: 500;
+            cursor: default;
+            border-color: #cfe0d7;
+        }
+
+        .row-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        /* grid untuk dropdown penilaian (6 item) */
+        .grid-2cols {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        /* grup checkbox & radio */
+        .checkbox-group, .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            background: #f9fefb;
+            padding: 0.9rem 1.5rem;
+            border-radius: 80px;
+            border: 1px solid #d4e6dd;
+            align-items: center;
+        }
+
+        .checkbox-group label, .radio-group label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            margin-bottom: 0;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        input[type="checkbox"], input[type="radio"] {
+            width: 1.1rem;
+            height: 1.1rem;
+            accent-color: #1f7046;
+            margin: 0;
+        }
+
+        button {
+            background: #1f7046;
+            color: white;
+            border: none;
+            padding: 0.85rem 2rem;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-right: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        button:hover {
+            background: #0c5a3a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .btn-reset {
+            background: #e2ede7;
+            color: #2b6e48;
+            border: 1px solid #c0dbcf;
+        }
+
+        .btn-reset:hover {
+            background: #d0e3da;
+            transform: translateY(-2px);
+        }
+
+        .message {
+            margin-top: 1.8rem;
+            padding: 0.9rem;
+            border-radius: 80px;
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .success {
+            background: #e0f8e8;
+            color: #1b6a40;
+            border-left: 4px solid #1b6a40;
+        }
+
+        .error {
+            background: #ffeae8;
+            color: #bc4e2c;
+            border-left: 4px solid #bc4e2c;
+        }
+
+        hr {
+            margin: 1.8rem 0;
+            border: none;
+            height: 1px;
+            background: linear-gradient(to right, #d4e2da, transparent);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1.2rem;
+            font-size: 0.75rem;
+            color: #5c7c6b;
+            border-top: 1px solid #d4e2da;
+            background: #fdfdfa;
+        }
+
+        /* Responsif untuk tablet & desktop besar */
+        @media (min-width: 1200px) {
+            .container {
+                max-width: 1400px;
+            }
+            .form-body {
+                padding: 2.5rem 3rem;
+            }
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            .form-body {
+                padding: 1.5rem;
+            }
+            .row-2, .grid-2cols {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            .checkbox-group, .radio-group {
+                padding: 0.8rem 1rem;
+                border-radius: 2rem;
+            }
+            button {
+                width: 100%;
+                justify-content: center;
+                margin-right: 0;
+                margin-bottom: 0.8rem;
+            }
+            .header {
+                padding: 1.4rem 1.8rem;
+            }
+            .header h1 {
+                font-size: 1.4rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .checkbox-group, .radio-group {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <div class="header">
+            <h1>📋 Form screening Kaderisasi PC GP Ansor KOTA MALANG</h1>
+        </div>
+        <div class="form-body">
+            <div class="field-group">
+                <label>👤 Pilih Nama Kader</label>
+                <select id="namaSelect">
+                    <option value="">-- Memuat daftar nama... --</option>
+                </select>
+            </div>
+
+            <div class="row-2">
+                <div class="field-group">
+                    <label>🏢 PAC</label>
+                    <input type="text" id="pacField" readonly class="readonly-input">
+                </div>
+                <div class="field-group">
+                    <label>📍 RANTING</label>
+                    <input type="text" id="rantingField" readonly class="readonly-input">
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="grid-2cols">
+                <div class="field-group"><label>📌 Kegiatan Amaliyah</label><select id="amaliyah"></select></div>
+                <div class="field-group"><label>🕌 Pengetahuan NU</label><select id="nu"></select></div>
+                <div class="field-group"><label>📖 Pengetahuan Aswaja</label><select id="aswaja"></select></div>
+                <div class="field-group"><label>⚡ Pengetahuan Ansor</label><select id="ansor"></select></div>
+                <div class="field-group"><label>📜 Sejarah & Andil Ulama NU</label><select id="sejarah"></select></div>
+                <div class="field-group"><label>🤝 Sepakat Pemerintah RI (Khilafah)</label><select id="setuju"></select></div>
+            </div>
+
+            <div class="field-group">
+                <label>📢 Hafal Pancasila (tes salah satu sila)</label>
+                <div class="checkbox-group"><label><input type="checkbox" id="pancasilaCheck"> Hafal </label></div>
+            </div>
+
+            <div class="grid-2cols">
+                <div class="field-group"><label>🎵 Syubbanul Wathon</label><div class="checkbox-group"><label><input type="checkbox" id="syubban"> Hafal</label></div></div>
+                <div class="field-group"><label>🎶 Mars Ansor</label><div class="checkbox-group"><label><input type="checkbox" id="mars"> Hafal</label></div></div>
+                <div class="field-group"><label>🛡️ Lagu Banser</label><div class="checkbox-group"><label><input type="checkbox" id="banser"> Hafal</label></div></div>
+            </div>
+
+            <div class="field-group">
+                <label>🏅 Klasifikasi Kader</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="kaderType" value="KB"> KB (Kader Biasa)</label>
+                    <label><input type="radio" name="kaderType" value="KP"> KP (Kader Potensi)</label>
+                    <label><input type="radio" name="kaderType" value="KL"> KL (Kader Leader)</label>
+                    <label><input type="radio" name="kaderType" value="KS"> KS (Kader Susupan)</label>
+                </div>
+            </div>
+
+            <div class="field-group">
+                <label>📝 Keterangan tambahan (opsional)</label>
+                <textarea id="keterangan" rows="2" placeholder="Catatan khusus..."></textarea>
+            </div>
+
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.8rem; margin-top: 2rem;">
+                <div style="display: flex; flex-wrap: wrap; gap: 0.8rem;">
+                    <button id="saveBtn">💾 Simpan Perubahan ke Sheet</button>
+                    <button id="resetFormBtn" type="button" class="btn-reset">↺ Reset ke data terakhir</button>
+                </div>
+            </div>
+            <div id="messageArea" class="message"></div>
+        </div>
+        <footer>
+            2026 @ XII-10.03.04.2300001
+        </footer>
+    </div>
+</div>
+
+<script>
+    // 🔴 GANTI DENGAN URL WEB APP ANDA (Google Apps Script) 🔴
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbz7n3WSZnC2EtErEICv8b_u7RA2g9eKpdzowIAT6XKngiGymohy__R5-FQd94VlkzEM7w/exec"; 
+    
+    let allKaders = [];
+    let currentKader = null;
+
+    const masteryOptions = ["Sangat Menguasai", "Menguasai", "Cukup Menguasai", "Kurang Menguasai", "Tidak Menguasai"];
+    function populateDropdowns() {
+        for (let id of ["amaliyah", "nu", "aswaja", "ansor", "sejarah", "setuju"]) {
+            const select = document.getElementById(id);
+            select.innerHTML = masteryOptions.map(opt => `<option value="${opt}">${opt}</option>`).join('');
+        }
+    }
+
+    async function loadKaderList() {
+        try {
+            const res = await fetch(GAS_URL);
+            const data = await res.json();
+            if (data.error) throw new Error(data.error);
+            allKaders = data;
+            const namaSelect = document.getElementById('namaSelect');
+            namaSelect.innerHTML = '<option value="">-- Pilih Nama Kader --</option>';
+            allKaders.forEach((k, idx) => {
+                const option = document.createElement('option');
+                option.value = idx;
+                option.textContent = `${k.nama} (${k.pac || '-'} / ${k.ranting || '-'})`;
+                namaSelect.appendChild(option);
+            });
+            if (allKaders.length > 0) {
+                document.getElementById('messageArea').innerHTML = `✅ ${allKaders.length} kader dimuat. Pilih nama untuk evaluasi.`;
+                document.getElementById('messageArea').className = "message success";
+            }
+        } catch(e) {
+            document.getElementById('messageArea').innerHTML = `❌ Gagal memuat data: ${e.message}`;
+            document.getElementById('messageArea').className = "message error";
+            console.error(e);
+        }
+    }
+
+    function displayKader(kader) {
+        document.getElementById('pacField').value = kader.pac || '';
+        document.getElementById('rantingField').value = kader.ranting || '';
+        document.getElementById('amaliyah').value = kader.amaliyah || 'Cukup Menguasai';
+        document.getElementById('nu').value = kader.nu || 'Cukup Menguasai';
+        document.getElementById('aswaja').value = kader.aswaja || 'Cukup Menguasai';
+        document.getElementById('ansor').value = kader.ansor || 'Cukup Menguasai';
+        document.getElementById('sejarah').value = kader.sejarah || 'Cukup Menguasai';
+        document.getElementById('setuju').value = kader.setuju || 'Cukup Menguasai';
+        
+        const isHafal = (kader.pancasila === 'Sangat Menguasai' || kader.pancasila === 'Menguasai');
+        document.getElementById('pancasilaCheck').checked = isHafal;
+        
+        document.getElementById('syubban').checked = kader.syubban === true;
+        document.getElementById('mars').checked = kader.mars === true;
+        document.getElementById('banser').checked = kader.laguBanser === true;
+        
+        let radioVal = '';
+        if (kader.kb) radioVal = 'KB';
+        else if (kader.kp) radioVal = 'KP';
+        else if (kader.kl) radioVal = 'KL';
+        else if (kader.ks) radioVal = 'KS';
+        const radioBtns = document.querySelectorAll('input[name="kaderType"]');
+        radioBtns.forEach(btn => btn.checked = (btn.value === radioVal));
+        
+        document.getElementById('keterangan').value = kader.keterangan || '';
+    }
+
+    function getFormData() {
+        return {
+            amaliyah: document.getElementById('amaliyah').value,
+            nu: document.getElementById('nu').value,
+            aswaja: document.getElementById('aswaja').value,
+            ansor: document.getElementById('ansor').value,
+            sejarah: document.getElementById('sejarah').value,
+            setuju: document.getElementById('setuju').value,
+            pancasila: document.getElementById('pancasilaCheck').checked ? "Sangat Menguasai" : "Tidak Menguasai",
+            syubban: document.getElementById('syubban').checked,
+            mars: document.getElementById('mars').checked,
+            laguBanser: document.getElementById('banser').checked,
+            kb: false, kp: false, kl: false, ks: false,
+        };
+    }
+
+    document.getElementById('namaSelect').addEventListener('change', (e) => {
+        const idx = e.target.value;
+        if (idx === "" || !allKaders[idx]) {
+            currentKader = null;
+            document.getElementById('pacField').value = '';
+            document.getElementById('rantingField').value = '';
+            return;
+        }
+        currentKader = { ...allKaders[idx] };
+        displayKader(currentKader);
+        document.getElementById('messageArea').innerHTML = `📌 Sedang edit: ${currentKader.nama}`;
+        document.getElementById('messageArea').className = "message";
+    });
+
+    document.getElementById('resetFormBtn').addEventListener('click', () => {
+        if (currentKader) displayKader(currentKader);
+        else alert("Pilih nama terlebih dahulu");
+    });
+
+    document.getElementById('saveBtn').addEventListener('click', async () => {
+        if (!currentKader) {
+            alert("Pilih nama kader terlebih dahulu");
+            return;
+        }
+        const updatedData = getFormData();
+        const selectedType = document.querySelector('input[name="kaderType"]:checked');
+        if (selectedType) {
+            const type = selectedType.value;
+            updatedData.kb = (type === 'KB');
+            updatedData.kp = (type === 'KP');
+            updatedData.kl = (type === 'KL');
+            updatedData.ks = (type === 'KS');
+        }
+        const payload = {
+            nama: currentKader.nama,
+            data: updatedData
+        };
+        try {
+            await fetch(GAS_URL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+            document.getElementById('messageArea').innerHTML = "✅ Data berhasil disimpan ke Google Sheets!";
+            document.getElementById('messageArea').className = "message success";
+            // refresh data agar tetap sinkron
+            await loadKaderList();
+            const refreshed = allKaders.find(k => k.nama === currentKader.nama);
+            if (refreshed) currentKader = { ...refreshed };
+            displayKader(currentKader);
+        } catch(e) {
+            document.getElementById('messageArea').innerHTML = "❌ Gagal menyimpan: " + e.message;
+            document.getElementById('messageArea').className = "message error";
+        }
+    });
+
+    populateDropdowns();
+    loadKaderList();
+</script>
+</body>
+</html>
