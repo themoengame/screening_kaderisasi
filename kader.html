@@ -7,8 +7,8 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui, 'Segoe UI', sans-serif; }
-        body { background: #eef5f0; padding: 2rem 1.5rem; min-height: 100vh; }
-        .container { max-width: 1280px; margin: 0 auto; }
+        body { background: #eef5f0; padding: 2rem 1.5rem; min-height: 100vh; display: flex; flex-direction: column; }
+        .container { max-width: 1280px; margin: 0 auto; flex: 1; }
         .card { background: white; border-radius: 2rem; box-shadow: 0 25px 40px -12px rgba(0,0,0,0.15); overflow: hidden; }
         .header { background: linear-gradient(115deg, #136b46 0%, #0a4f33 100%); color: white; padding: 1.8rem 2.5rem; }
         .header h1 { font-size: 1.8rem; font-weight: 700; }
@@ -37,13 +37,40 @@
         .modal-content { background: white; padding: 2rem; border-radius: 2rem; max-width: 500px; width: 90%; }
         .modal-content h3 { margin-bottom: 1.5rem; color: #136b46; }
         .modal-buttons { display: flex; gap: 1rem; margin-top: 1.5rem; }
+        
+        /* Footer Styles */
+        .footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1.2rem;
+            font-size: 0.75rem;
+            color: #5c7c6b;
+            border-top: 1px solid #d4e2da;
+            background: transparent;
+        }
+        
+        .footer p {
+            margin: 0.25rem 0;
+        }
+        
+        .footer .copyright {
+            font-weight: 500;
+            color: #2a6e46;
+        }
+        
+        .footer .support {
+            font-size: 0.7rem;
+            color: #8aa99a;
+        }
+        
         @media (max-width: 768px) {
-            body { padding: 1rem; }
+            body { padding: 1rem; display: flex; flex-direction: column; min-height: 100vh; }
             .form-body { padding: 1.5rem; }
             .row-2, .grid-2cols { grid-template-columns: 1fr; gap: 1rem; }
             .checkbox-group, .radio-group { flex-direction: column; align-items: flex-start; }
             button { width: 100%; margin-right: 0; margin-bottom: 0.8rem; }
             .header h1 { font-size: 1.4rem; }
+            .footer { margin-top: 1rem; padding: 0.8rem; }
         }
     </style>
 </head>
@@ -120,6 +147,12 @@
             </div>
             <div id="messageArea" class="message"></div>
         </div>
+    </div>
+    
+    <!-- FOOTER -->
+    <div class="footer">
+        <p class="copyright">© 2026 - PC GP Ansor Kota Malang</p>
+        <p class="support">support by XII-10.03.04.2300001</p>
     </div>
 </div>
 
