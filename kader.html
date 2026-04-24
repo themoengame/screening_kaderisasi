@@ -6,206 +6,37 @@
     <title>Form Screening - PC GP Ansor Kota Malang</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: system-ui, 'Segoe UI', 'Inter', sans-serif;
-        }
-
-        body {
-            background: #eef5f0;
-            padding: 2rem 1.5rem;
-            min-height: 100vh;
-        }
-
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-        }
-
-        .card {
-            background: white;
-            border-radius: 2rem;
-            box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.15);
-            overflow: hidden;
-        }
-
-        .header {
-            background: linear-gradient(115deg, #136b46 0%, #0a4f33 100%);
-            color: white;
-            padding: 1.8rem 2.5rem;
-        }
-
-        .header h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-        }
-
-        .form-body {
-            padding: 2.2rem 2.5rem;
-        }
-
-        .field-group {
-            margin-bottom: 1.5rem;
-        }
-
-        label {
-            font-weight: 600;
-            color: #2a6e46;
-            display: block;
-            margin-bottom: 0.5rem;
-            font-size: 0.85rem;
-        }
-
-        select, input, textarea {
-            width: 100%;
-            padding: 0.85rem 1.2rem;
-            border-radius: 60px;
-            border: 1.5px solid #d0e4db;
-            font-size: 0.95rem;
-            transition: 0.2s;
-            outline: none;
-        }
-
-        select:focus, input:focus, textarea:focus {
-            border-color: #1f8a4c;
-            box-shadow: 0 0 0 3px rgba(31, 138, 76, 0.2);
-        }
-
-        .readonly-input {
-            background: #f0f7f2;
-            color: #2c5a44;
-            border-color: #cfe0d7;
-        }
-
-        .row-2 {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
-        }
-
-        .grid-2cols {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
-        }
-
-        .checkbox-group, .radio-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.2rem;
-            background: #f9fefb;
-            padding: 0.9rem 1.5rem;
-            border-radius: 80px;
-            border: 1px solid #d4e6dd;
-        }
-
-        .checkbox-group label, .radio-group label {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 0;
-        }
-
-        input[type="checkbox"], input[type="radio"] {
-            width: 1.1rem;
-            height: 1.1rem;
-            accent-color: #1f7046;
-        }
-
-        button {
-            background: #1f7046;
-            color: white;
-            border: none;
-            padding: 0.85rem 2rem;
-            border-radius: 60px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s;
-            margin-right: 1rem;
-        }
-
-        button:hover {
-            background: #0c5a3a;
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            background: #e2ede7;
-            color: #2b6e48;
-            border: 1px solid #c0dbcf;
-        }
-
-        .btn-secondary:hover {
-            background: #d0e3da;
-        }
-
-        .btn-success {
-            background: #28a745;
-        }
-
-        .btn-success:hover {
-            background: #218838;
-        }
-
-        .message {
-            margin-top: 1.5rem;
-            padding: 0.9rem;
-            border-radius: 80px;
-            text-align: center;
-            font-weight: 500;
-        }
-
-        .success {
-            background: #e0f8e8;
-            color: #1b6a40;
-        }
-
-        .error {
-            background: #ffeae8;
-            color: #bc4e2c;
-        }
-
-        hr {
-            margin: 1.5rem 0;
-            border: none;
-            height: 1px;
-            background: #d4e2da;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-
-        .modal-content {
-            background: white;
-            padding: 2rem;
-            border-radius: 2rem;
-            max-width: 500px;
-            width: 90%;
-        }
-
-        .modal-content h3 {
-            margin-bottom: 1.5rem;
-            color: #136b46;
-        }
-
-        .modal-buttons {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1.5rem;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui, 'Segoe UI', sans-serif; }
+        body { background: #eef5f0; padding: 2rem 1.5rem; min-height: 100vh; }
+        .container { max-width: 1280px; margin: 0 auto; }
+        .card { background: white; border-radius: 2rem; box-shadow: 0 25px 40px -12px rgba(0,0,0,0.15); overflow: hidden; }
+        .header { background: linear-gradient(115deg, #136b46 0%, #0a4f33 100%); color: white; padding: 1.8rem 2.5rem; }
+        .header h1 { font-size: 1.8rem; font-weight: 700; }
+        .form-body { padding: 2.2rem 2.5rem; }
+        .field-group { margin-bottom: 1.5rem; }
+        label { font-weight: 600; color: #2a6e46; display: block; margin-bottom: 0.5rem; font-size: 0.85rem; }
+        select, input, textarea { width: 100%; padding: 0.85rem 1.2rem; border-radius: 60px; border: 1.5px solid #d0e4db; font-size: 0.95rem; outline: none; }
+        select:focus, input:focus, textarea:focus { border-color: #1f8a4c; box-shadow: 0 0 0 3px rgba(31,138,76,0.2); }
+        .readonly-input { background: #f0f7f2; color: #2c5a44; border-color: #cfe0d7; }
+        .row-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+        .grid-2cols { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+        .checkbox-group, .radio-group { display: flex; flex-wrap: wrap; gap: 1.2rem; background: #f9fefb; padding: 0.9rem 1.5rem; border-radius: 80px; border: 1px solid #d4e6dd; }
+        .checkbox-group label, .radio-group label { display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 0; }
+        input[type="checkbox"], input[type="radio"] { width: 1.1rem; height: 1.1rem; accent-color: #1f7046; }
+        button { background: #1f7046; color: white; border: none; padding: 0.85rem 2rem; border-radius: 60px; font-weight: 700; cursor: pointer; transition: all 0.2s; margin-right: 1rem; }
+        button:hover { background: #0c5a3a; transform: translateY(-2px); }
+        .btn-secondary { background: #e2ede7; color: #2b6e48; border: 1px solid #c0dbcf; }
+        .btn-secondary:hover { background: #d0e3da; }
+        .btn-success { background: #28a745; }
+        .btn-success:hover { background: #218838; }
+        .message { margin-top: 1.5rem; padding: 0.9rem; border-radius: 80px; text-align: center; font-weight: 500; }
+        .success { background: #e0f8e8; color: #1b6a40; }
+        .error { background: #ffeae8; color: #bc4e2c; }
+        hr { margin: 1.5rem 0; border: none; height: 1px; background: #d4e2da; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; z-index: 1000; }
+        .modal-content { background: white; padding: 2rem; border-radius: 2rem; max-width: 500px; width: 90%; }
+        .modal-content h3 { margin-bottom: 1.5rem; color: #136b46; }
+        .modal-buttons { display: flex; gap: 1rem; margin-top: 1.5rem; }
         @media (max-width: 768px) {
             body { padding: 1rem; }
             .form-body { padding: 1.5rem; }
@@ -223,7 +54,6 @@
             <h1>📋 Form Screening Kaderisasi PC GP Ansor KOTA MALANG</h1>
         </div>
         <div class="form-body">
-            <!-- Pilih Nama Kader -->
             <div class="field-group">
                 <label>👤 Pilih Nama Kader</label>
                 <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
@@ -234,7 +64,6 @@
                 </div>
             </div>
 
-            <!-- Informasi PAC & Ranting -->
             <div class="row-2">
                 <div class="field-group">
                     <label>🏢 PAC</label>
@@ -248,7 +77,6 @@
 
             <hr>
 
-            <!-- Penilaian -->
             <div class="grid-2cols">
                 <div class="field-group"><label>📌 Kegiatan Amaliyah</label><select id="amaliyah"></select></div>
                 <div class="field-group"><label>🕌 Pengetahuan NU</label><select id="nu"></select></div>
@@ -301,15 +129,15 @@
         <h3>➕ Tambah Kader Baru</h3>
         <div class="field-group">
             <label>👤 Nama Lengkap</label>
-            <input type="text" id="newNama" placeholder="Contoh: Ahmad Fauzi">
+            <input type="text" id="newNama" placeholder="Nama sesuai dengan KTP">
         </div>
         <div class="field-group">
             <label>🏢 PAC</label>
-            <input type="text" id="newPac" placeholder="Contoh: PAC Klojen">
+            <input type="text" id="newPac" placeholder="Contoh: Klojen">
         </div>
         <div class="field-group">
             <label>📍 Ranting</label>
-            <input type="text" id="newRanting" placeholder="Contoh: Ranting Rampal Celaket">
+            <input type="text" id="newRanting" placeholder="Contoh: Rampal Celaket">
         </div>
         <div class="modal-buttons">
             <button id="confirmAddBtn" class="btn-success">✅ Tambah</button>
@@ -319,6 +147,7 @@
 </div>
 
 <script>
+    // PASTIKAN URL INI BENAR
     const GAS_URL = "https://script.google.com/macros/s/AKfycbz7n3WSZnC2EtErEICv8b_u7RA2g9eKpdzowIAT6XKngiGymohy__R5-FQd94VlkzEM7w/exec";
     
     let allKaders = [];
@@ -337,7 +166,10 @@
         try {
             const res = await fetch(GAS_URL);
             const data = await res.json();
+            
             if (data.error) throw new Error(data.error);
+            if (!Array.isArray(data)) throw new Error("Data tidak valid");
+            
             allKaders = data;
             const namaSelect = document.getElementById('namaSelect');
             namaSelect.innerHTML = '<option value="">-- Pilih Nama Kader --</option>';
@@ -347,18 +179,26 @@
                 option.textContent = `${k.nama} (${k.pac || '-'} / ${k.ranting || '-'})`;
                 namaSelect.appendChild(option);
             });
+            
             if (allKaders.length > 0) {
-                document.getElementById('messageArea').innerHTML = `✅ ${allKaders.length} kader dimuat`;
-                document.getElementById('messageArea').className = "message success";
-                setTimeout(() => {
-                    document.getElementById('messageArea').className = "message";
-                    document.getElementById('messageArea').innerHTML = "";
-                }, 3000);
+                showMessage(`✅ ${allKaders.length} kader dimuat`, 'success');
+            } else {
+                showMessage('⚠️ Belum ada data kader. Silakan tambah kader baru.', 'success');
             }
         } catch(e) {
-            document.getElementById('messageArea').innerHTML = `❌ Gagal memuat data: ${e.message}`;
-            document.getElementById('messageArea').className = "message error";
+            showMessage(`❌ Gagal memuat data: ${e.message}`, 'error');
+            console.error(e);
         }
+    }
+    
+    function showMessage(msg, type) {
+        const msgDiv = document.getElementById('messageArea');
+        msgDiv.innerHTML = msg;
+        msgDiv.className = `message ${type}`;
+        setTimeout(() => {
+            msgDiv.className = 'message';
+            msgDiv.innerHTML = '';
+        }, 3000);
     }
 
     function displayKader(kader) {
@@ -402,7 +242,6 @@
         };
     }
 
-    // Event Listeners
     document.getElementById('namaSelect').addEventListener('change', (e) => {
         const idx = e.target.value;
         if (idx === "" || !allKaders[idx]) {
@@ -446,19 +285,13 @@
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)
             });
-            document.getElementById('messageArea').innerHTML = "✅ Data berhasil disimpan!";
-            document.getElementById('messageArea').className = "message success";
+            showMessage("✅ Data berhasil disimpan!", "success");
             await loadKaderList();
             const refreshed = allKaders.find(k => k.nama === currentKader.nama);
             if (refreshed) currentKader = { ...refreshed };
             displayKader(currentKader);
-            setTimeout(() => {
-                document.getElementById('messageArea').className = "message";
-                document.getElementById('messageArea').innerHTML = "";
-            }, 3000);
         } catch(e) {
-            document.getElementById('messageArea').innerHTML = "❌ Gagal menyimpan: " + e.message;
-            document.getElementById('messageArea').className = "message error";
+            showMessage("❌ Gagal menyimpan: " + e.message, "error");
         }
     });
 
@@ -486,7 +319,7 @@
         }
         
         try {
-            const response = await fetch(GAS_URL, {
+            await fetch(GAS_URL, {
                 method: "POST",
                 mode: "no-cors",
                 headers: { "Content-Type": "application/json" },
@@ -509,7 +342,6 @@
         }
     });
 
-    // Inisialisasi
     populateDropdowns();
     loadKaderList();
 </script>
