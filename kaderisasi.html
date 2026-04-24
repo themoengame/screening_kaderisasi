@@ -18,11 +18,14 @@
             background: #eef5f0;
             padding: 2rem 1.5rem;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         .container {
             max-width: 1400px;
             margin: 0 auto;
+            flex: 1;
         }
 
         /* Tab Navigation */
@@ -296,6 +299,31 @@
             color: #721c24;
         }
 
+        /* Footer Styles */
+        .footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1.2rem;
+            font-size: 0.75rem;
+            color: #5c7c6b;
+            border-top: 1px solid #d4e2da;
+            background: transparent;
+        }
+        
+        .footer p {
+            margin: 0.25rem 0;
+        }
+        
+        .footer .copyright {
+            font-weight: 500;
+            color: #2a6e46;
+        }
+        
+        .footer .support {
+            font-size: 0.7rem;
+            color: #8aa99a;
+        }
+
         @media (max-width: 768px) {
             body {
                 padding: 1rem;
@@ -314,6 +342,10 @@
             .tab-btn {
                 padding: 0.6rem 1.2rem;
                 font-size: 0.8rem;
+            }
+            .footer {
+                margin-top: 1rem;
+                padding: 0.8rem;
             }
         }
     </style>
@@ -334,7 +366,7 @@
     <div id="tab-event" class="tab-content">
         <div class="card">
             <div class="card-header">
-                <h2>📝 Form Data Event</h2>
+                <h2>📝 Form Data Kaderisasi PC GP Ansor KOTA MALANG</h2>
             </div>
             <div class="card-body">
                 <form id="eventForm">
@@ -421,7 +453,7 @@
                                 <tr><th>Materi</th><th>Pemateri</th></tr>
                             </thead>
                             <tbody id="materiBody">
-                                <tr><td colspan="2" style="text-align:center;">Loading...</td></tr>
+                                <tr><td colspan="2" style="text-align:center;">Loading......</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -478,7 +510,7 @@
         </div>
     </div>
 
-    <!-- TAB 5: SCAN QR ABSENSI (DIPERBAIKI) -->
+    <!-- TAB 5: SCAN QR ABSENSI -->
     <div id="tab-scan" class="tab-content hidden">
         <div class="card">
             <div class="card-header">
@@ -529,6 +561,12 @@
             </div>
         </div>
     </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+    <p class="copyright">© 2026 - PC GP Ansor Kota Malang</p>
+    <p class="support">support by XII-10.03.04.2300001</p>
 </div>
 
 <script>
@@ -777,7 +815,7 @@
         }
     }
 
-    // ============ TAB 5: SCAN ABSENSI (DIPERBAIKI) ============
+    // ============ TAB 5: SCAN ABSENSI ============
     
     // Tampilkan hasil scan terakhir
     function showLastScanResult(peserta, jamAbsen) {
