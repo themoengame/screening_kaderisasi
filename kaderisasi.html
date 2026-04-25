@@ -28,7 +28,6 @@
             flex: 1;
         }
 
-        /* Tab Navigation */
         .tabs {
             display: flex;
             gap: 0.5rem;
@@ -155,16 +154,6 @@
             background: #218838;
         }
 
-        .btn-warning {
-            background: #ffc107;
-            color: #333;
-        }
-
-        .btn-warning:hover {
-            background: #e0a800;
-        }
-
-        /* QR Scanner */
         #qr-reader {
             width: 100%;
             max-width: 500px;
@@ -192,7 +181,6 @@
             color: #856404;
         }
 
-        /* Table */
         .table-wrapper {
             overflow-x: auto;
             max-height: 400px;
@@ -222,7 +210,6 @@
             background: #f5f9f7;
         }
 
-        /* QR Result */
         .qr-result {
             text-align: center;
             padding: 1.5rem;
@@ -239,7 +226,6 @@
             max-width: 250px;
         }
 
-        /* Photo Upload */
         .photo-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -260,7 +246,6 @@
             display: none;
         }
 
-        /* Last Scan Result */
         .last-scan {
             background: #e8f5e9;
             border-radius: 16px;
@@ -272,10 +257,6 @@
         .last-scan h4 {
             color: #2e7d32;
             margin-bottom: 0.5rem;
-        }
-
-        .last-scan p {
-            margin: 0.25rem 0;
         }
 
         .hidden {
@@ -299,7 +280,6 @@
             color: #721c24;
         }
 
-        /* Footer Styles */
         .footer {
             text-align: center;
             margin-top: 2rem;
@@ -307,7 +287,6 @@
             font-size: 0.75rem;
             color: #5c7c6b;
             border-top: 1px solid #d4e2da;
-            background: transparent;
         }
         
         .footer p {
@@ -317,11 +296,6 @@
         .footer .copyright {
             font-weight: 500;
             color: #2a6e46;
-        }
-        
-        .footer .support {
-            font-size: 0.7rem;
-            color: #8aa99a;
         }
 
         @media (max-width: 768px) {
@@ -343,16 +317,11 @@
                 padding: 0.6rem 1.2rem;
                 font-size: 0.8rem;
             }
-            .footer {
-                margin-top: 1rem;
-                padding: 0.8rem;
-            }
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <!-- Tab Navigation -->
     <div class="tabs">
         <button class="tab-btn active" data-tab="event">📝 Event</button>
         <button class="tab-btn" data-tab="materi">📚 Materi</button>
@@ -404,6 +373,23 @@
                             <input type="text" id="notulen" required placeholder="Nama notulen">
                         </div>
                     </div>
+
+                    <!-- STATISTIK PESERTA -->
+                    <div class="row-3">
+                        <div class="form-group">
+                            <label>👥 Jumlah Peserta</label>
+                            <input type="number" id="jmlPeserta" required placeholder="Total peserta" min="0" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label>✅ Sudah Absen</label>
+                            <input type="number" id="sudahAbsen" required placeholder="Jumlah sudah absen" min="0" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label>⏳ Belum Absen</label>
+                            <input type="number" id="belumAbsen" required placeholder="Jumlah belum absen" min="0" value="0">
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label>📸 Foto Dokumentasi (max 4 foto)</label>
                         <div class="photo-grid">
@@ -439,55 +425,41 @@
         </div>
     </div>
 
-    <!-- TAB 2: MATERI & PEMATERI -->
+    <!-- TAB 2: MATERI -->
     <div id="tab-materi" class="tab-content hidden">
         <div class="card">
             <div class="card-header">
                 <h2>📚 Manajemen Materi & Pemateri</h2>
             </div>
             <div class="card-body">
-                <div style="margin-top: 1rem;">
-                    <div class="table-wrapper">
-                        <table id="materiTable">
-                            <thead>
-                                <tr><th>Materi</th><th>Pemateri</th></tr>
-                            </thead>
-                            <tbody id="materiBody">
-                                <tr><td colspan="2" style="text-align:center;">Loading......</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
+                <div class="table-wrapper">
+                    <table id="materiTable">
+                        <thead><tr><th>Materi</th><th>Pemateri</th></tr></thead>
+                        <tbody id="materiBody"><tr><td colspan="2" style="text-align:center;">Loading...</td></tr></tbody>
+                    </table>
                 </div>
-                <div id="materiMessage" class="message hidden"></div>
             </div>
         </div>
     </div>
 
-    <!-- TAB 3: DATA PESERTA -->
+    <!-- TAB 3: PESERTA -->
     <div id="tab-peserta" class="tab-content hidden">
         <div class="card">
             <div class="card-header">
                 <h2>👥 Data Peserta (untuk QR Code)</h2>
             </div>
             <div class="card-body">
-                <div style="margin-top: 1rem;">
-                    <div class="table-wrapper">
-                        <table id="pesertaTable">
-                            <thead>
-                                <tr><th>Token</th><th>Nama</th><th>PAC</th><th>Ranting</th></tr>
-                            </thead>
-                            <tbody id="pesertaBody">
-                                <tr><td colspan="4" style="text-align:center;">Loading...</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
+                <div class="table-wrapper">
+                    <table id="pesertaTable">
+                        <thead><tr><th>Token</th><th>Nama</th><th>PAC</th><th>Ranting</th></tr></thead>
+                        <tbody id="pesertaBody"><tr><td colspan="4" style="text-align:center;">Loading...</td></tr></tbody>
+                    </table>
                 </div>
-                <div id="pesertaMessage" class="message hidden"></div>
             </div>
         </div>
     </div>
 
-    <!-- TAB 4: GENERATE QR CODE -->
+    <!-- TAB 4: GENERATE QR -->
     <div id="tab-qr" class="tab-content hidden">
         <div class="card">
             <div class="card-header">
@@ -510,7 +482,7 @@
         </div>
     </div>
 
-    <!-- TAB 5: SCAN QR ABSENSI -->
+    <!-- TAB 5: SCAN QR -->
     <div id="tab-scan" class="tab-content hidden">
         <div class="card">
             <div class="card-header">
@@ -518,17 +490,11 @@
             </div>
             <div class="card-body">
                 <div id="qr-reader"></div>
-                <div id="scannerStatus" class="status-scanner">
-                    🔍 Scanner siap, arahkan ke QR Code peserta...
-                </div>
-                
-                <!-- Tombol Aksi Setelah Scan -->
+                <div id="scannerStatus" class="status-scanner">🔍 Scanner siap, arahkan ke QR Code peserta...</div>
                 <div id="scanActions" style="text-align: center; margin-top: 1rem; display: none;">
                     <button id="btnNextScan" class="btn-success">✅ Scan Berikutnya</button>
                     <button id="btnStopScan" class="btn-secondary">⏹️ Hentikan Scanner</button>
                 </div>
-
-                <!-- Hasil Scan Terakhir -->
                 <div id="lastScanResult" class="last-scan hidden">
                     <h4>✅ Absen Berhasil!</h4>
                     <div id="lastScanInfo"></div>
@@ -550,12 +516,8 @@
                 </div>
                 <div class="table-wrapper">
                     <table id="absensiTable">
-                        <thead>
-                            <tr><th>No</th><th>Nama Peserta</th><th>PAC</th><th>Ranting</th><th>Jam Absen</th><th>Timestamp</th></tr>
-                        </thead>
-                        <tbody id="absensiBody">
-                            <tr><td colspan="6" style="text-align:center;">Loading...</td></tr>
-                        </tbody>
+                        <thead><tr><th>No</th><th>Nama</th><th>PAC</th><th>Ranting</th><th>Jam</th><th>Timestamp</th></tr></thead>
+                        <tbody id="absensiBody"><tr><td colspan="6" style="text-align:center;">Loading...</td></tr></tbody>
                     </table>
                 </div>
             </div>
@@ -563,23 +525,20 @@
     </div>
 </div>
 
-<!-- FOOTER -->
 <div class="footer">
     <p class="copyright">© 2026 - PC GP Ansor Kota Malang</p>
-    <p class="support">support by XII-10.03.04.2300001</p>
+    <p>support by XII-10.03.04.2300001</p>
 </div>
 
 <script>
-    // ============ KONFIGURASI ============
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz7n3WSZnC2EtErEICv8b_u7RA2g9eKpdzowIAT6XKngiGymohy__R5-FQd94VlkzEM7w/exec";
     
     let html5QrCode;
     let isScanning = true;
     let scannerActive = false;
     let currentQRData = null;
-    let lastScannedData = null;
 
-    // ============ UTILITY FUNCTIONS ============
+    // ============ UTILITY ============
     function showMessage(elementId, message, type) {
         const el = document.getElementById(elementId);
         if (el) {
@@ -604,15 +563,6 @@
         }
     }
 
-    function fileToBase64(file) {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = error => reject(error);
-        });
-    }
-
     // ============ TAB NAVIGATION ============
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -626,15 +576,11 @@
             if (tabId === 'peserta') loadPesertaList();
             if (tabId === 'qr') loadPesertaForQR();
             if (tabId === 'absensi') loadAbsensi();
-            if (tabId === 'scan') {
-                if (!scannerActive) {
-                    startScanner();
-                }
-            }
+            if (tabId === 'scan' && !scannerActive) startScanner();
         });
     });
 
-    // ============ TAB 1: EVENT ============
+    // ============ TAB 1: EVENT (Upload File Langsung, Tanpa Base64) ============
     async function loadMateriOptions() {
         try {
             const response = await fetch(`${SCRIPT_URL}?mode=absensi&action=getMateri`);
@@ -659,6 +605,7 @@
     document.getElementById('eventForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         
+        // Ambil data dari form
         const tanggal = document.getElementById('tanggal').value;
         const jamMulai = document.getElementById('jamMulai').value;
         const jamSelesai = document.getElementById('jamSelesai').value;
@@ -666,42 +613,62 @@
         const pemateri = document.getElementById('pemateriSelect').value;
         const moderator = document.getElementById('moderator').value;
         const notulen = document.getElementById('notulen').value;
+        const jmlPeserta = document.getElementById('jmlPeserta').value;
+        const sudahAbsen = document.getElementById('sudahAbsen').value;
+        const belumAbsen = document.getElementById('belumAbsen').value;
         
-        const fotoFiles = ['foto1', 'foto2', 'foto3', 'foto4'].map(id => document.getElementById(id).files[0]);
-        const fotoBase64 = await Promise.all(fotoFiles.map(file => file ? fileToBase64(file) : ''));
+        // Ambil file foto
+        const foto1 = document.getElementById('foto1').files[0];
+        const foto2 = document.getElementById('foto2').files[0];
+        const foto3 = document.getElementById('foto3').files[0];
+        const foto4 = document.getElementById('foto4').files[0];
         
-        const formData = {
-            action: 'saveEvent',
-            tanggal: tanggal,
-            jam: `${jamMulai} - ${jamSelesai}`,
-            materi: materi,
-            pemateri: pemateri,
-            moderator: moderator,
-            notulen: notulen,
-            foto1: fotoBase64[0],
-            foto2: fotoBase64[1],
-            foto3: fotoBase64[2],
-            foto4: fotoBase64[3]
-        };
+        // Buat FormData untuk mengirim file
+        const formData = new FormData();
+        formData.append('action', 'saveEvent');
+        formData.append('tanggal', tanggal);
+        formData.append('jam', `${jamMulai} - ${jamSelesai}`);
+        formData.append('materi', materi);
+        formData.append('pemateri', pemateri);
+        formData.append('moderator', moderator);
+        formData.append('notulen', notulen);
+        formData.append('jmlPeserta', jmlPeserta);
+        formData.append('sudahAbsen', sudahAbsen);
+        formData.append('belumAbsen', belumAbsen);
+        if (foto1) formData.append('foto1', foto1);
+        if (foto2) formData.append('foto2', foto2);
+        if (foto3) formData.append('foto3', foto3);
+        if (foto4) formData.append('foto4', foto4);
         
         try {
-            await fetch(SCRIPT_URL, {
+            const response = await fetch(SCRIPT_URL, {
                 method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData)
+                body: formData
             });
-            showMessage('eventMessage', '✅ Data event berhasil disimpan!', 'success');
-            document.getElementById('eventForm').reset();
-            document.querySelectorAll('.preview-img').forEach(img => img.style.display = 'none');
+            
+            const result = await response.json();
+            if (result.status === 'success') {
+                showMessage('eventMessage', '✅ Data event berhasil disimpan! Foto tersimpan di Google Drive.', 'success');
+                document.getElementById('eventForm').reset();
+                document.querySelectorAll('.preview-img').forEach(img => img.style.display = 'none');
+                document.getElementById('jmlPeserta').value = '0';
+                document.getElementById('sudahAbsen').value = '0';
+                document.getElementById('belumAbsen').value = '0';
+            } else {
+                showMessage('eventMessage', '❌ Gagal menyimpan: ' + (result.error || 'Unknown error'), 'error');
+            }
         } catch (error) {
             showMessage('eventMessage', '❌ Gagal menyimpan data event', 'error');
+            console.error(error);
         }
     });
 
     function resetEventForm() {
         document.getElementById('eventForm').reset();
         document.querySelectorAll('.preview-img').forEach(img => img.style.display = 'none');
+        document.getElementById('jmlPeserta').value = '0';
+        document.getElementById('sudahAbsen').value = '0';
+        document.getElementById('belumAbsen').value = '0';
     }
 
     // ============ TAB 2: MATERI ============
@@ -711,9 +678,8 @@
             const data = await response.json();
             const tbody = document.getElementById('materiBody');
             tbody.innerHTML = '';
-            
             if (Array.isArray(data) && data.length > 0) {
-                data.forEach((item) => {
+                data.forEach(item => {
                     const row = tbody.insertRow();
                     row.insertCell(0).textContent = item.Materi;
                     row.insertCell(1).textContent = item.Pemateri;
@@ -733,9 +699,8 @@
             const data = await response.json();
             const tbody = document.getElementById('pesertaBody');
             tbody.innerHTML = '';
-            
             if (Array.isArray(data) && data.length > 0) {
-                data.forEach((item) => {
+                data.forEach(item => {
                     const row = tbody.insertRow();
                     row.insertCell(0).textContent = item.QRToken;
                     row.insertCell(1).textContent = item.Nama;
@@ -743,7 +708,7 @@
                     row.insertCell(3).textContent = item.Ranting;
                 });
             } else {
-                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Belum ada data peserta</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Belum ada data</td></tr>';
             }
         } catch (error) {
             console.error('Error:', error);
@@ -757,7 +722,6 @@
             const data = await response.json();
             const select = document.getElementById('qrPesertaSelect');
             select.innerHTML = '<option value="">-- Pilih Peserta --</option>';
-            
             if (Array.isArray(data)) {
                 data.forEach(item => {
                     select.innerHTML += `<option value="${item.QRToken}" data-nama="${item.Nama}" data-pac="${item.PAC}" data-ranting="${item.Ranting}">${item.Nama} - ${item.PAC} - ${item.Ranting}</option>`;
@@ -772,32 +736,19 @@
         const select = document.getElementById('qrPesertaSelect');
         const token = select.value;
         const nama = select.options[select.selectedIndex]?.getAttribute('data-nama') || '';
-        
         if (!token) {
             Swal.fire('Peringatan', 'Pilih peserta terlebih dahulu', 'warning');
             return;
         }
-        
         currentQRData = { token, nama };
         const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(token)}`;
-        
-        document.getElementById('qrResult').innerHTML = `
-            <img src="${qrUrl}" alt="QR Code">
-            <p><strong>${nama}</strong><br>Token: ${token}</p>
-        `;
+        document.getElementById('qrResult').innerHTML = `<img src="${qrUrl}"><p><strong>${nama}</strong><br>Token: ${token}</p>`;
     }
 
     function printQR() {
         const qrContent = document.getElementById('qrResult').innerHTML;
         const printWindow = window.open('', '_blank');
-        printWindow.document.write(`
-            <html>
-            <head><title>Cetak QR Code</title></head>
-            <body style="display:flex;justify-content:center;align-items:center;height:100vh;flex-direction:column;">
-                ${qrContent}
-            </body>
-            </html>
-        `);
+        printWindow.document.write(`<html><head><title>Cetak QR Code</title></head><body style="display:flex;justify-content:center;align-items:center;height:100vh;flex-direction:column;">${qrContent}</body></html>`);
         printWindow.print();
     }
 
@@ -816,188 +767,84 @@
     }
 
     // ============ TAB 5: SCAN ABSENSI ============
-    
-    // Tampilkan hasil scan terakhir
-    function showLastScanResult(peserta, jamAbsen) {
-        const lastScanDiv = document.getElementById('lastScanResult');
-        const lastScanInfo = document.getElementById('lastScanInfo');
-        
-        lastScanInfo.innerHTML = `
-            <p><strong>👤 Nama:</strong> ${peserta.Nama}</p>
-            <p><strong>🏢 PAC:</strong> ${peserta.PAC}</p>
-            <p><strong>📍 Ranting:</strong> ${peserta.Ranting}</p>
-            <p><strong>⏰ Jam:</strong> ${jamAbsen}</p>
-        `;
-        lastScanDiv.classList.remove('hidden');
-        
-        // Auto hide after 5 seconds
-        setTimeout(() => {
-            lastScanDiv.classList.add('hidden');
-        }, 5000);
-    }
-
-    // Proses absensi
     async function processAbsensi(qrToken) {
         try {
             const response = await fetch(`${SCRIPT_URL}?mode=absensi&action=getPesertaByToken&token=${encodeURIComponent(qrToken)}`);
             const peserta = await response.json();
-            
             if (peserta.error || !peserta.Nama) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'QR Code Tidak Valid!',
-                    text: 'Peserta tidak ditemukan dalam database.',
-                    confirmButtonColor: '#1f7046'
-                });
+                Swal.fire({ icon: 'error', title: 'QR Code Tidak Valid!', text: 'Peserta tidak ditemukan.', confirmButtonColor: '#1f7046' });
                 return false;
             }
-            
             const now = new Date();
             const jamAbsen = now.toLocaleTimeString('id-ID');
             const timestampFull = now.toISOString();
+            const absensiData = { action: 'saveAbsensi', nama: peserta.Nama, pac: peserta.PAC, ranting: peserta.Ranting, jam: jamAbsen, timestampFull: timestampFull, qrToken: qrToken };
             
-            const absensiData = {
-                action: 'saveAbsensi',
-                nama: peserta.Nama,
-                pac: peserta.PAC,
-                ranting: peserta.Ranting,
-                jam: jamAbsen,
-                timestampFull: timestampFull,
-                qrToken: qrToken
-            };
+            await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(absensiData) });
             
-            await fetch(SCRIPT_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(absensiData)
-            });
+            Swal.fire({ icon: 'success', title: '✅ Absen Berhasil!', html: `<strong>${peserta.Nama}</strong><br>PAC: ${peserta.PAC}<br>Ranting: ${peserta.Ranting}<br>Jam: ${jamAbsen}`, confirmButtonColor: '#1f7046' });
             
-            // Tampilkan notifikasi sukses dengan SweetAlert
-            Swal.fire({
-                icon: 'success',
-                title: '✅ Absen Berhasil!',
-                html: `
-                    <strong>${peserta.Nama}</strong><br>
-                    PAC: ${peserta.PAC}<br>
-                    Ranting: ${peserta.Ranting}<br>
-                    Jam: ${jamAbsen}
-                `,
-                confirmButtonColor: '#1f7046',
-                confirmButtonText: 'OK'
-            });
-            
-            // Tampilkan hasil scan di bagian bawah
-            showLastScanResult(peserta, jamAbsen);
-            
-            // Refresh daftar hadir
+            const lastScanDiv = document.getElementById('lastScanResult');
+            const lastScanInfo = document.getElementById('lastScanInfo');
+            lastScanInfo.innerHTML = `<p><strong>👤 Nama:</strong> ${peserta.Nama}</p><p><strong>🏢 PAC:</strong> ${peserta.PAC}</p><p><strong>📍 Ranting:</strong> ${peserta.Ranting}</p><p><strong>⏰ Jam:</strong> ${jamAbsen}</p>`;
+            lastScanDiv.classList.remove('hidden');
+            setTimeout(() => lastScanDiv.classList.add('hidden'), 5000);
             loadAbsensi();
-            
             return true;
         } catch (error) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Gagal!',
-                text: 'Terjadi kesalahan saat menyimpan absensi.',
-                confirmButtonColor: '#1f7046'
-            });
+            Swal.fire({ icon: 'error', title: 'Gagal!', text: 'Terjadi kesalahan.', confirmButtonColor: '#1f7046' });
             return false;
         }
     }
 
-    // Hentikan scanner
-    function stopScanner() {
-        if (html5QrCode && html5QrCode.isScanning) {
-            html5QrCode.stop().then(() => {
-                scannerActive = false;
-                isScanning = false;
-                document.getElementById('scannerStatus').innerHTML = '⏹️ Scanner dihentikan. Klik "Mulai Scanner" untuk melanjutkan.';
-                document.getElementById('scannerStatus').classList.add('warning');
-                document.getElementById('scanActions').style.display = 'none';
-                
-                // Tambah tombol mulai scanner
-                if (!document.getElementById('btnStartScan')) {
-                    const startBtn = document.createElement('button');
-                    startBtn.id = 'btnStartScan';
-                    startBtn.className = 'btn-success';
-                    startBtn.innerHTML = '▶️ Mulai Scanner';
-                    startBtn.onclick = () => {
-                        startScanner();
-                        startBtn.remove();
-                    };
-                    document.getElementById('scannerStatus').after(startBtn);
-                }
-            }).catch(err => {
-                console.log("Stop scanner error:", err);
-            });
-        }
-    }
-
-    // Mulai scanner
     function startScanner() {
         const scannerElement = document.getElementById("qr-reader");
         if (!scannerElement) return;
-        
-        // Hapus tombol start jika ada
-        const startBtn = document.getElementById('btnStartScan');
-        if (startBtn) startBtn.remove();
-        
         scannerElement.innerHTML = "";
-        
         html5QrCode = new Html5Qrcode("qr-reader");
         const config = { fps: 10, qrbox: { width: 250, height: 250 } };
-        
         html5QrCode.start({ facingMode: "environment" }, config, async (qrMessage) => {
             if (!isScanning) return;
-            
-            // Langsung proses tanpa menonaktifkan scanner
             isScanning = false;
-            
             const statusEl = document.getElementById('scannerStatus');
             statusEl.innerHTML = '⏳ Memproses absensi...';
             statusEl.classList.add('active');
-            
             const success = await processAbsensi(qrMessage);
-            
             if (success) {
-                // Tampilkan tombol aksi
                 document.getElementById('scanActions').style.display = 'flex';
-                document.getElementById('scannerStatus').innerHTML = '✅ Scan berhasil! Klik "Scan Berikutnya" untuk melanjutkan.';
-                document.getElementById('scannerStatus').classList.remove('active');
-                document.getElementById('scannerStatus').classList.add('success');
+                statusEl.innerHTML = '✅ Scan berhasil! Klik "Scan Berikutnya" untuk melanjutkan.';
+                statusEl.classList.remove('active');
             } else {
                 isScanning = true;
-                document.getElementById('scannerStatus').innerHTML = '🔍 Scanner siap, arahkan ke QR Code peserta...';
-                document.getElementById('scannerStatus').classList.remove('active');
-                document.getElementById('scannerStatus').classList.remove('success');
+                statusEl.innerHTML = '🔍 Scanner siap, arahkan ke QR Code peserta...';
+                statusEl.classList.remove('active');
             }
-        }, (error) => {
-            console.log("Scan error:", error);
         }).catch(err => {
             console.log("Start scanner error:", err);
-            document.getElementById('scannerStatus').innerHTML = '❌ Gagal memulai kamera. Pastikan HTTPS dan izin kamera diberikan.';
+            document.getElementById('scannerStatus').innerHTML = '❌ Gagal memulai kamera. Pastikan izin kamera diberikan.';
         });
-        
         scannerActive = true;
         isScanning = true;
         document.getElementById('scannerStatus').innerHTML = '🔍 Scanner siap, arahkan ke QR Code peserta...';
-        document.getElementById('scannerStatus').classList.remove('warning');
-        document.getElementById('scannerStatus').classList.remove('active');
         document.getElementById('scanActions').style.display = 'none';
     }
 
-    // Reset untuk scan berikutnya
     function resetForNextScan() {
         isScanning = true;
         document.getElementById('scanActions').style.display = 'none';
         document.getElementById('scannerStatus').innerHTML = '🔍 Scanner siap, arahkan ke QR Code peserta...';
-        document.getElementById('scannerStatus').classList.remove('success');
-        document.getElementById('scannerStatus').classList.remove('active');
     }
 
-    // Event tombol
     document.getElementById('btnNextScan')?.addEventListener('click', resetForNextScan);
-    document.getElementById('btnStopScan')?.addEventListener('click', stopScanner);
+    document.getElementById('btnStopScan')?.addEventListener('click', () => {
+        if (html5QrCode && html5QrCode.isScanning) {
+            html5QrCode.stop().then(() => {
+                scannerActive = false;
+                document.getElementById('scannerStatus').innerHTML = '⏹️ Scanner dihentikan.';
+                document.getElementById('scanActions').style.display = 'none';
+            });
+        }
+    });
 
     // ============ TAB 6: DAFTAR HADIR ============
     async function loadAbsensi() {
@@ -1006,7 +853,6 @@
             const data = await response.json();
             const tbody = document.getElementById('absensiBody');
             tbody.innerHTML = '';
-            
             if (Array.isArray(data) && data.length > 0) {
                 data.forEach((item, index) => {
                     const row = tbody.insertRow();
@@ -1035,21 +881,13 @@
         link.click();
     }
 
-    // ============ INISIALISASI ============
+    // ============ INIT ============
     window.onload = () => {
         loadMateriOptions();
         loadMateriList();
         loadPesertaList();
         loadPesertaForQR();
         loadAbsensi();
-        
-        // Inisialisasi scanner (tidak otomatis, menunggu tab scan dibuka)
-        setTimeout(() => {
-            const activeTab = document.querySelector('.tab-btn.active').getAttribute('data-tab');
-            if (activeTab === 'scan') {
-                startScanner();
-            }
-        }, 500);
     };
 </script>
 </body>
