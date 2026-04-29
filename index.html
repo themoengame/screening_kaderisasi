@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Supervisi Pemateri - Sistem Penilaian Berbasis Tujuan</title>
+    <title>Supervisi Pemateri</title>
     <style>
         * {
             margin: 0;
@@ -16,188 +16,144 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
-        }
-
-        /* Header Info */
-        .header-info {
-            background: rgba(255,255,255,0.95);
-            backdrop-filter: blur(10px);
-            padding: 12px 20px;
-            text-align: center;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-
-        .header-info h1 {
-            font-size: 20px;
-            color: #333;
-            display: flex;
-            align-items: center;
             justify-content: center;
-            gap: 10px;
+            align-items: center;
+            padding: 20px;
         }
 
-        .header-info p {
-            font-size: 12px;
-            color: #666;
-            margin-top: 4px;
-        }
-
-        /* Container Iframe */
-        .iframe-container {
-            flex: 1;
-            padding: 16px;
-            background: rgba(0,0,0,0.05);
-        }
-
-        iframe {
-            width: 100%;
-            height: calc(100vh - 100px);
-            border: none;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        .card {
             background: white;
-        }
-
-        /* Loading Overlay */
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
+            border-radius: 24px;
+            padding: 40px 30px;
+            max-width: 500px;
             width: 100%;
-            height: 100%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        p {
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .btn {
+            display: inline-block;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            transition: opacity 0.5s ease;
-        }
-
-        .loading-content {
-            text-align: center;
             color: white;
-        }
-
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid rgba(255,255,255,0.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 0.8s linear infinite;
-            margin: 0 auto 20px;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .loading-content p {
-            font-size: 16px;
-            margin-top: 10px;
-        }
-
-        /* Footer */
-        .footer {
-            background: rgba(0,0,0,0.7);
-            color: white;
-            text-align: center;
-            padding: 8px;
-            font-size: 11px;
-        }
-
-        .footer a {
-            color: #ffd700;
+            padding: 14px 28px;
+            border-radius: 40px;
             text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            margin: 5px;
         }
 
-        /* Responsive */
-        @media (max-width: 640px) {
-            .iframe-container {
-                padding: 8px;
-            }
-            
-            .header-info h1 {
-                font-size: 16px;
-            }
-            
-            iframe {
-                height: calc(100vh - 80px);
-            }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #667eea;
+            color: #667eea;
+        }
+
+        .btn-outline:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .info {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #999;
+        }
+
+        .auto-redirect {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            font-size: 13px;
+            color: #888;
+        }
+
+        .countdown {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 18px;
+        }
+
+        @media (max-width: 480px) {
+            .card { padding: 30px 20px; }
+            h1 { font-size: 24px; }
+            .btn { padding: 12px 24px; font-size: 14px; }
         }
     </style>
 </head>
 <body>
+    <div class="card">
+        <div class="icon">📋</div>
+        <h1>Supervisi Pemateri</h1>
+        <p>Sistem penilaian berbasis tujuan pembelajaran<br>dan alokasi waktu</p>
 
-    <div class="header-info">
-        <h1>
-            <span>📋</span>
-            Supervisi Pemateri
-        </h1>
-        <p>Sistem Penilaian Berbasis Tujuan Pembelajaran & Alokasi Waktu</p>
-    </div>
-
-    <div class="iframe-container">
         <!-- GANTI URL DI BAWAH INI DENGAN WEB APP ANDA -->
-        <iframe id="mainFrame" 
-                src="https://script.google.com/macros/s/AKfycbz2MkzbTG2je2l1lz7b8p9Rv1h0sIF50j_HE7srwAuIVcndljzqwi3TjPYk11jX0UcV/exec"
-                title="Supervisi Pemateri"
-                allow="geolocation; microphone; camera; midi; encrypted-media"
-                allowfullscreen>
-        </iframe>
-    </div>
+        <a href="https://script.google.com/macros/s/AKfycbz2MkzbTG2je2l1lz7b8p9Rv1h0sIF50j_HE7srwAuIVcndljzqwi3TjPYk11jX0UcV/exec" 
+           class="btn" 
+           target="_blank">
+           🚀 Buka Aplikasi Supervisi
+        </a>
 
-    <div class="footer">
-        © 2026 Sistem Supervisi Pemateri | 
-        <a href="#" onclick="location.reload();return false;">🔄 Refresh Halaman</a>
-    </div>
+        <div class="auto-redirect">
+            ⏳ Mengalihkan secara otomatis dalam 
+            <span class="countdown" id="countdown">5</span> detik...
+        </div>
 
-    <!-- Loading Overlay -->
-    <div id="loadingOverlay" class="loading-overlay">
-        <div class="loading-content">
-            <div class="spinner"></div>
-            <p>⏳ Memuat Aplikasi Supervisi...</p>
-            <p style="font-size: 12px; margin-top: 20px;">Mohon tunggu sebentar</p>
+        <div class="info">
+            💡 Aplikasi akan terbuka di tab baru<br>
+            Simpan halaman ini sebagai bookmark untuk akses cepat
         </div>
     </div>
 
     <script>
-        // Hilangkan loading overlay setelah iframe selesai loading
-        const iframe = document.getElementById('mainFrame');
-        const loadingOverlay = document.getElementById('loadingOverlay');
-
-        iframe.addEventListener('load', function() {
-            setTimeout(function() {
-                loadingOverlay.style.opacity = '0';
-                setTimeout(function() {
-                    loadingOverlay.style.display = 'none';
-                }, 500);
-            }, 500);
-        });
-
-        // Timeout fallback (jika iframe terlalu lama loading)
-        setTimeout(function() {
-            if (loadingOverlay.style.display !== 'none') {
-                loadingOverlay.style.opacity = '0';
-                setTimeout(function() {
-                    loadingOverlay.style.display = 'none';
-                }, 500);
+        // GANTI URL INI DENGAN WEB APP ANDA
+        const webAppUrl = "https://script.google.com/macros/s/AKfycbz2MkzbTG2je2l1lz7b8p9Rv1h0sIF50j_HE7srwAuIVcndljzqwi3TjPYk11jX0UcV/exec";
+        
+        let countdown = 5;
+        const countdownEl = document.getElementById('countdown');
+        
+        const timer = setInterval(() => {
+            countdown--;
+            countdownEl.textContent = countdown;
+            
+            if (countdown <= 0) {
+                clearInterval(timer);
+                window.open(webAppUrl, '_blank');
+                // Ubah teks setelah redirect
+                document.querySelector('.auto-redirect').innerHTML = '✅ Mengalihkan... Jika tidak terbuka, klik tombol di atas.';
             }
-        }, 5000);
-
-        // Tangani error jika iframe tidak bisa dimuat
-        iframe.onerror = function() {
-            loadingOverlay.innerHTML = `
-                <div class="loading-content">
-                    <div style="font-size: 48px;">⚠️</div>
-                    <p style="font-size: 18px; margin-top: 10px;">Gagal Memuat Aplikasi</p>
-                    <p style="font-size: 14px; margin-top: 10px;">Pastikan Anda memiliki akses ke Web App Google Apps Script</p>
-                    <button onclick="location.reload()" style="margin-top: 20px; padding: 10px 20px; background: white; color: #667eea; border: none; border-radius: 8px; cursor: pointer;">🔄 Coba Lagi</button>
-                </div>
-            `;
-        };
+        }, 1000);
     </script>
 </body>
 </html>
