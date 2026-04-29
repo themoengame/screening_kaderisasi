@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Supervisi Pemateri</title>
+    <title>Portal Supervisi & Kaderisasi</title>
     <style>
         * {
             margin: 0;
@@ -15,145 +15,231 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+            padding: 40px 20px;
         }
 
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .header p {
+            font-size: 18px;
+            opacity: 0.9;
+        }
+
+        /* Grid Card */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        /* Card */
         .card {
             background: white;
             border-radius: 24px;
-            padding: 40px 30px;
-            max-width: 500px;
-            width: 100%;
+            padding: 30px;
             text-align: center;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            animation: fadeIn 0.5s ease;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: fadeInUp 0.6s ease forwards;
+            opacity: 0;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .card:nth-child(1) { animation-delay: 0.1s; }
+        .card:nth-child(2) { animation-delay: 0.2s; }
+        .card:nth-child(3) { animation-delay: 0.3s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .icon {
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        /* Icon Card */
+        .card-icon {
             font-size: 64px;
             margin-bottom: 20px;
         }
 
-        h1 {
+        .card h2 {
             color: #333;
-            margin-bottom: 10px;
-            font-size: 28px;
+            margin-bottom: 12px;
+            font-size: 24px;
         }
 
-        p {
+        .card p {
             color: #666;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             line-height: 1.6;
         }
 
+        /* Tombol di dalam card */
         .btn {
             display: inline-block;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 14px 28px;
+            padding: 12px 28px;
             border-radius: 40px;
             text-decoration: none;
             font-weight: 600;
-            font-size: 16px;
+            font-size: 15px;
             transition: all 0.3s ease;
             border: none;
             cursor: pointer;
-            margin: 5px;
         }
 
         .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
         }
 
-        .btn-outline {
-            background: transparent;
-            border: 2px solid #667eea;
-            color: #667eea;
-        }
-
-        .btn-outline:hover {
-            background: #667eea;
+        /* Info tambahan */
+        .info-bar {
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 15px 25px;
+            text-align: center;
             color: white;
-        }
-
-        .info {
+            font-size: 14px;
             margin-top: 20px;
+        }
+
+        .info-bar a {
+            color: #ffd700;
+            text-decoration: none;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: rgba(255,255,255,0.7);
             font-size: 12px;
-            color: #999;
         }
 
-        .auto-redirect {
-            margin-top: 25px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-            font-size: 13px;
-            color: #888;
-        }
-
-        .countdown {
-            font-weight: bold;
-            color: #667eea;
-            font-size: 18px;
-        }
-
-        @media (max-width: 480px) {
-            .card { padding: 30px 20px; }
-            h1 { font-size: 24px; }
-            .btn { padding: 12px 24px; font-size: 14px; }
+        /* Responsive */
+        @media (max-width: 768px) {
+            body { padding: 20px 15px; }
+            .header h1 { font-size: 28px; }
+            .header p { font-size: 14px; }
+            .grid { gap: 20px; }
+            .card { padding: 25px 20px; }
+            .card-icon { font-size: 48px; }
+            .card h2 { font-size: 20px; }
         }
     </style>
 </head>
 <body>
-    <div class="card">
-        <div class="icon">📋</div>
-        <h1>Supervisi Pemateri</h1>
-        <p>Sistem penilaian berbasis tujuan pembelajaran<br>dan alokasi waktu</p>
-
-        <!-- GANTI URL DI BAWAH INI DENGAN WEB APP ANDA -->
-        <a href="https://script.google.com/macros/s/AKfycbz2MkzbTG2je2l1lz7b8p9Rv1h0sIF50j_HE7srwAuIVcndljzqwi3TjPYk11jX0UcV/exec" 
-           class="btn" 
-           target="_blank">
-           🚀 Buka Aplikasi Supervisi
-        </a>
-
-        <div class="auto-redirect">
-            ⏳ Mengalihkan secara otomatis dalam 
-            <span class="countdown" id="countdown">5</span> detik...
+    <div class="container">
+        <div class="header">
+            <h1>
+                <span>📋</span>
+                Portal Manajemen
+            </h1>
+            <p>Pilih aplikasi yang ingin Anda gunakan</p>
         </div>
 
-        <div class="info">
-            💡 Aplikasi akan terbuka di tab baru<br>
-            Simpan halaman ini sebagai bookmark untuk akses cepat
+        <div class="grid">
+            <!-- Card 1: Supervisi Pemateri -->
+            <div class="card">
+                <div class="card-icon">🎯</div>
+                <h2>Supervisi Pemateri</h2>
+                <p>Penilaian berbasis tujuan pembelajaran & alokasi waktu. Cocok untuk mengevaluasi kinerja pemateri.</p>
+                <a href="https://script.google.com/macros/s/AKfycbz2MkzbTG2je2l1lz7b8p9Rv1h0sIF50j_HE7srwAuIVcndljzqwi3TjPYk11jX0UcV/exec" 
+                   class="btn" 
+                   target="_blank">
+                   🚀 Buka Aplikasi
+                </a>
+            </div>
+
+            <!-- Card 2: Screening (kader.html) -->
+            <div class="card">
+                <div class="card-icon">🔍</div>
+                <h2>Screening Kader</h2>
+                <p>Proses penyaringan dan seleksi calon kader. Kelola data pendaftar, penilaian awal, dan seleksi administrasi.</p>
+                <a href="kader.html" 
+                   class="btn" 
+                   target="_blank">
+                   📋 Buka Screening
+                </a>
+            </div>
+
+            <!-- Card 3: Giat Kegiatan (kaderisasi.html) -->
+            <div class="card">
+                <div class="card-icon">⭐</div>
+                <h2>Giat Kegiatan</h2>
+                <p>Manajemen kegiatan kaderisasi, pelatihan, dan pengembangan kapasitas kader. Catat kehadiran & evaluasi.</p>
+                <a href="kaderisasi.html" 
+                   class="btn" 
+                   target="_blank">
+                   📅 Buka Giat Kegiatan
+                </a>
+            </div>
+        </div>
+
+        <div class="info-bar">
+            💡 <strong>Tips:</strong> Ketiga aplikasi dapat dibuka secara bersamaan di tab yang berbeda. 
+            <br>Gunakan bookmark untuk akses cepat.
+        </div>
+
+        <div class="footer">
+            © 2026 Portal Manajemen Kader & Supervisi | 
+            <a href="#" onclick="location.reload();return false;">🔄 Refresh Halaman</a>
         </div>
     </div>
 
     <script>
-        // GANTI URL INI DENGAN WEB APP ANDA
-        const webAppUrl = "https://script.google.com/macros/s/AKfycbz2MkzbTG2je2l1lz7b8p9Rv1h0sIF50j_HE7srwAuIVcndljzqwi3TjPYk11jX0UcV/exec";
+        // Efek tambahan: animasi card saat hover sudah di CSS
+        console.log("Portal siap digunakan");
         
-        let countdown = 5;
-        const countdownEl = document.getElementById('countdown');
+        // Cek apakah file kader.html dan kaderisasi.html tersedia
+        function checkFile(url) {
+            fetch(url, { method: 'HEAD' })
+                .then(response => {
+                    if (!response.ok) {
+                        console.warn(`File ${url} tidak ditemukan (404)`);
+                    }
+                })
+                .catch(() => {
+                    console.warn(`Tidak dapat mengakses ${url}`);
+                });
+        }
         
-        const timer = setInterval(() => {
-            countdown--;
-            countdownEl.textContent = countdown;
-            
-            if (countdown <= 0) {
-                clearInterval(timer);
-                window.open(webAppUrl, '_blank');
-                // Ubah teks setelah redirect
-                document.querySelector('.auto-redirect').innerHTML = '✅ Mengalihkan... Jika tidak terbuka, klik tombol di atas.';
-            }
-        }, 1000);
+        // Cek ketersediaan file (hanya untuk debugging di console)
+        checkFile('kader.html');
+        checkFile('kaderisasi.html');
     </script>
 </body>
 </html>
