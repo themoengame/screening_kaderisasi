@@ -106,6 +106,13 @@
             box-shadow: 0 0 0 3px rgba(31, 138, 76, 0.1);
         }
 
+        .readonly-input {
+            background: #f0f7f2;
+            color: #2c5a44;
+            border-color: #cfe0d7;
+            cursor: default;
+        }
+
         .row-2 {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -303,10 +310,17 @@
             color: #1f7046;
             text-decoration: none;
             font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
         }
         .link-materi:hover {
             text-decoration: underline;
             color: #0c5a3a;
+        }
+        .link-materi::before {
+            content: "🔗";
+            font-size: 14px;
         }
 
         @media (max-width: 768px) {
@@ -436,7 +450,7 @@
         </div>
     </div>
 
-    <!-- TAB 2: MATERI & PEMATERI (HANYA TAMPIL, TIDAK ADA TOMBOL TAMBAH/HAPUS) -->
+    <!-- TAB 2: MATERI & PEMATERI (HANYA TAMPIL, TIDAK ADA TOMBOL) -->
     <div id="tab-materi" class="tab-content hidden">
         <div class="card">
             <div class="card-header">
@@ -541,7 +555,7 @@
                             <tr><th>No</th><th>Nama</th><th>PAC</th><th>Ranting</th><th>Jam</th><th>Timestamp</th></tr>
                         </thead>
                         <tbody id="absensiBody">
-                            <td><td colspan="6" style="text-align:center;">Loading...</td></tr>
+                            <tr><td colspan="6" style="text-align:center;">Loading...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -556,6 +570,7 @@
 </div>
 
 <script>
+    // ============ KONFIGURASI ============
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz7n3WSZnC2EtErEICv8b_u7RA2g9eKpdzowIAT6XKngiGymohy__R5-FQd94VlkzEM7w/exec";
     
     let html5QrCode;
@@ -563,6 +578,7 @@
     let scannerActive = false;
     let currentQRData = null;
 
+    // ============ UTILITY ============
     function showMessage(elementId, message, type) {
         const el = document.getElementById(elementId);
         if (el) {
@@ -692,7 +708,51 @@
         document.getElementById('belumAbsen').value = '0';
     }
 
-    // ============ TAB 2: MATERI (HANYA TAMPIL) ============
+    // ============ TAB 2: MATERI (DIPERBAIKI - LINK BISA DIKLIK) ============
+    function isValidUrl(string) {
+        try {
+            new URL(string);
+            return true;
+        } catch (_) {
+            return false;
+        }
+    }
+
+    function ensureAbsoluteUrl(url) {
+        if (!url) return null;
+        url = url.trim();
+        if (url === '#') return null;
+        if (url === '') return null;
+        
+        // Jika sudah diawali http:// atau https://
+        if (url.startsWith('http://') || url.startsWith('https://')) {
+            return url;
+        }
+        
+        // Jika diawali // (protocol relative)
+        if (url.startsWith('//')) {
+            return 'https:' + url;
+        }
+        
+        // Jika diawali www.
+        if (url.startsWith('www.')) {
+            return 'https://' + url;
+        }
+        
+        // Jika berupa link Google Drive tanpa protocol
+        if (url.includes('drive.google.com')) {
+            return 'https://' + url;
+        }
+        
+        // Jika berupa file ID saja (misal: 1abc123xyz)
+        if (url.match(/^[a-zA-Z0-9_-]{20,}$/)) {
+            return `https://drive.google.com/file/d/${url}/view`;
+        }
+        
+        // Jika tidak valid, return null
+        return null;
+    }
+
     async function loadMateriList() {
         try {
             const response = await fetch(`${SCRIPT_URL}?mode=absensi&action=getMateri`);
@@ -706,26 +766,36 @@
                     row.insertCell(0).textContent = item.Materi || '-';
                     row.insertCell(1).textContent = item.Pemateri || '-';
                     
-                    // Kolom Link Materi
+                    // Kolom Link Materi dengan perbaikan URL
                     const linkCell = row.insertCell(2);
-                    if (item.LinkMateri && item.LinkMateri !== '' && item.LinkMateri !== '#') {
+                    let rawUrl = item.LinkMateri || '';
+                    const absoluteUrl = ensureAbsoluteUrl(rawUrl);
+                    
+                    if (absoluteUrl && isValidUrl(absoluteUrl)) {
+                        // Buat link dengan target _blank dan rel="noopener noreferrer" untuk keamanan
                         const link = document.createElement('a');
-                        link.href = item.LinkMateri;
+                        link.href = absoluteUrl;
                         link.textContent = '🔗 Buka Materi';
                         link.target = '_blank';
+                        link.rel = 'noopener noreferrer';
                         link.className = 'link-materi';
+                        link.style.cssText = 'color: #1f7046; text-decoration: none; font-weight: 500; display: inline-flex; align-items: center; gap: 4px;';
                         linkCell.appendChild(link);
                     } else {
                         linkCell.textContent = '-';
                         linkCell.style.color = '#999';
+                        if (rawUrl && rawUrl !== '-') {
+                            linkCell.title = `URL tidak valid: ${rawUrl}`;
+                        }
                     }
                 });
             } else {
                 tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;">Belum ada data materi</td></tr>';
             }
         } catch (error) {
-            console.error('Error:', error);
-            document.getElementById('materiBody').innerHTML = '<tr><td colspan="3" style="text-align:center;">Gagal memuat data</td></tr>';
+            console.error('Error loading materi:', error);
+            document.getElementById('materiBody').innerHTML = '<tr><td colspan="3" style="text-align:center;">Gagal memuat数据</td></tr>';
+            showMessage('materiMessage', '❌ Gagal memuat data materi', 'error');
         }
     }
 
@@ -746,7 +816,7 @@
                     row.insertCell(3).textContent = item.Ranting;
                 });
             } else {
-                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Belum ada data peserta</td></tr>';
+                tbody.innerHTML = '<td><td colspan="4" style="text-align:center;">Belum ada data peserta</td></tr>';
             }
         } catch (error) {
             console.error('Error:', error);
@@ -903,7 +973,7 @@
                     row.insertCell(5).textContent = item.TimestampFull ? item.TimestampFull.substring(0, 19) : '-';
                 });
             } else {
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Belum ada data absensi</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Belum ada data absensi</tr>';
             }
         } catch (error) {
             console.error('Error loading absensi:', error);
