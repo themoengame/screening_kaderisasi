@@ -154,6 +154,14 @@
             background: #218838;
         }
 
+        .btn-link {
+            background: #17a2b8;
+        }
+
+        .btn-link:hover {
+            background: #138496;
+        }
+
         #qr-reader {
             width: 100%;
             max-width: 500px;
@@ -298,6 +306,21 @@
             color: #2a6e46;
         }
 
+        /* Link button di tabel */
+        .link-icon {
+            background: #17a2b8;
+            color: white;
+            border: none;
+            padding: 4px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .link-icon:hover {
+            background: #138496;
+        }
+
         @media (max-width: 768px) {
             body {
                 padding: 1rem;
@@ -425,41 +448,78 @@
         </div>
     </div>
 
-    <!-- TAB 2: MATERI -->
+    <!-- TAB 2: MATERI & PEMATERI (DENGAN LINK MATERI) -->
     <div id="tab-materi" class="tab-content hidden">
         <div class="card">
             <div class="card-header">
                 <h2>📚 Manajemen Materi & Pemateri</h2>
             </div>
             <div class="card-body">
-                <div class="table-wrapper">
-                    <table id="materiTable">
-                        <thead><tr><th>Materi</th><th>Pemateri</th></tr></thead>
-                        <tbody id="materiBody"><tr><td colspan="2" style="text-align:center;">Loading...</td></tr></tbody>
-                    </table>
+                <!-- Form Tambah Materi -->
+                <form id="materiForm">
+                    <div class="row-3">
+                        <div class="form-group">
+                            <label>📖 Nama Materi</label>
+                            <input type="text" id="materiNama" required placeholder="Contoh: Pengantar Web">
+                        </div>
+                        <div class="form-group">
+                            <label>👨‍🏫 Pemateri</label>
+                            <input type="text" id="pemateriNama" required placeholder="Contoh: Budi Santoso">
+                        </div>
+                        <div class="form-group">
+                            <label>🔗 Link Materi (Google Drive/YouTube)</label>
+                            <input type="url" id="materiLink" placeholder="https://drive.google.com/... atau https://youtube.com/...">
+                        </div>
+                    </div>
+                    <div class="btn-group">
+                        <button type="submit">➕ Tambah Materi</button>
+                        <button type="button" class="btn-secondary" onclick="loadMateriList()">🔄 Refresh</button>
+                    </div>
+                </form>
+
+                <div style="margin-top: 2rem;">
+                    <h3>📋 Daftar Materi & Pemateri</h3>
+                    <div class="table-wrapper">
+                        <table id="materiTable">
+                            <thead>
+                                <tr><th>Materi</th><th>Pemateri</th><th>Link Materi</th><th>Aksi</th></tr>
+                            </thead>
+                            <tbody id="materiBody">
+                                <tr><td colspan="4" style="text-align:center;">Loading...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+                <div id="materiMessage" class="message hidden"></div>
             </div>
         </div>
     </div>
 
-    <!-- TAB 3: PESERTA -->
+    <!-- TAB 3: DATA PESERTA -->
     <div id="tab-peserta" class="tab-content hidden">
         <div class="card">
             <div class="card-header">
                 <h2>👥 Data Peserta (untuk QR Code)</h2>
             </div>
             <div class="card-body">
-                <div class="table-wrapper">
-                    <table id="pesertaTable">
-                        <thead><tr><th>Token</th><th>Nama</th><th>PAC</th><th>Ranting</th></tr></thead>
-                        <tbody id="pesertaBody"><tr><td colspan="4" style="text-align:center;">Loading...</td></tr></tbody>
-                    </table>
+                <div style="margin-top: 1rem;">
+                    <div class="table-wrapper">
+                        <table id="pesertaTable">
+                            <thead>
+                                <tr><th>Token</th><th>Nama</th><th>PAC</th><th>Ranting</th></tr>
+                            </thead>
+                            <tbody id="pesertaBody">
+                                <tr><td colspan="4" style="text-align:center;">Loading...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+                <div id="pesertaMessage" class="message hidden"></div>
             </div>
         </div>
     </div>
 
-    <!-- TAB 4: GENERATE QR -->
+    <!-- TAB 4: GENERATE QR CODE -->
     <div id="tab-qr" class="tab-content hidden">
         <div class="card">
             <div class="card-header">
@@ -482,7 +542,7 @@
         </div>
     </div>
 
-    <!-- TAB 5: SCAN QR -->
+    <!-- TAB 5: SCAN QR ABSENSI -->
     <div id="tab-scan" class="tab-content hidden">
         <div class="card">
             <div class="card-header">
@@ -516,8 +576,12 @@
                 </div>
                 <div class="table-wrapper">
                     <table id="absensiTable">
-                        <thead><tr><th>No</th><th>Nama</th><th>PAC</th><th>Ranting</th><th>Jam</th><th>Timestamp</th></tr></thead>
-                        <tbody id="absensiBody"><tr><td colspan="6" style="text-align:center;">Loading...</td></tr></tbody>
+                        <thead>
+                            <tr><th>No</th><th>Nama</th><th>PAC</th><th>Ranting</th><th>Jam</th><th>Timestamp</th></tr>
+                        </thead>
+                        <tbody id="absensiBody">
+                            <tr><td colspan="6" style="text-align:center;">Loading...</td></tr>
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -563,6 +627,15 @@
         }
     }
 
+    function fileToBase64(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+        });
+    }
+
     // ============ TAB NAVIGATION ============
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -580,7 +653,7 @@
         });
     });
 
-    // ============ TAB 1: EVENT (Upload File Langsung, Tanpa Base64) ============
+    // ============ TAB 1: EVENT ============
     async function loadMateriOptions() {
         try {
             const response = await fetch(`${SCRIPT_URL}?mode=absensi&action=getMateri`);
@@ -605,7 +678,6 @@
     document.getElementById('eventForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        // Ambil data dari form
         const tanggal = document.getElementById('tanggal').value;
         const jamMulai = document.getElementById('jamMulai').value;
         const jamSelesai = document.getElementById('jamSelesai').value;
@@ -617,49 +689,41 @@
         const sudahAbsen = document.getElementById('sudahAbsen').value;
         const belumAbsen = document.getElementById('belumAbsen').value;
         
-        // Ambil file foto
-        const foto1 = document.getElementById('foto1').files[0];
-        const foto2 = document.getElementById('foto2').files[0];
-        const foto3 = document.getElementById('foto3').files[0];
-        const foto4 = document.getElementById('foto4').files[0];
+        const fotoFiles = ['foto1', 'foto2', 'foto3', 'foto4'].map(id => document.getElementById(id).files[0]);
+        const fotoBase64 = await Promise.all(fotoFiles.map(file => file ? fileToBase64(file) : ''));
         
-        // Buat FormData untuk mengirim file
-        const formData = new FormData();
-        formData.append('action', 'saveEvent');
-        formData.append('tanggal', tanggal);
-        formData.append('jam', `${jamMulai} - ${jamSelesai}`);
-        formData.append('materi', materi);
-        formData.append('pemateri', pemateri);
-        formData.append('moderator', moderator);
-        formData.append('notulen', notulen);
-        formData.append('jmlPeserta', jmlPeserta);
-        formData.append('sudahAbsen', sudahAbsen);
-        formData.append('belumAbsen', belumAbsen);
-        if (foto1) formData.append('foto1', foto1);
-        if (foto2) formData.append('foto2', foto2);
-        if (foto3) formData.append('foto3', foto3);
-        if (foto4) formData.append('foto4', foto4);
+        const formData = {
+            action: 'saveEvent',
+            tanggal: tanggal,
+            jam: `${jamMulai} - ${jamSelesai}`,
+            materi: materi,
+            pemateri: pemateri,
+            moderator: moderator,
+            notulen: notulen,
+            jmlPeserta: jmlPeserta,
+            sudahAbsen: sudahAbsen,
+            belumAbsen: belumAbsen,
+            foto1: fotoBase64[0],
+            foto2: fotoBase64[1],
+            foto3: fotoBase64[2],
+            foto4: fotoBase64[3]
+        };
         
         try {
-            const response = await fetch(SCRIPT_URL, {
+            await fetch(SCRIPT_URL, {
                 method: 'POST',
-                body: formData
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
             });
-            
-            const result = await response.json();
-            if (result.status === 'success') {
-                showMessage('eventMessage', '✅ Data event berhasil disimpan! Foto tersimpan di Google Drive.', 'success');
-                document.getElementById('eventForm').reset();
-                document.querySelectorAll('.preview-img').forEach(img => img.style.display = 'none');
-                document.getElementById('jmlPeserta').value = '0';
-                document.getElementById('sudahAbsen').value = '0';
-                document.getElementById('belumAbsen').value = '0';
-            } else {
-                showMessage('eventMessage', '❌ Gagal menyimpan: ' + (result.error || 'Unknown error'), 'error');
-            }
+            showMessage('eventMessage', '✅ Data event berhasil disimpan!', 'success');
+            document.getElementById('eventForm').reset();
+            document.querySelectorAll('.preview-img').forEach(img => img.style.display = 'none');
+            document.getElementById('jmlPeserta').value = '0';
+            document.getElementById('sudahAbsen').value = '0';
+            document.getElementById('belumAbsen').value = '0';
         } catch (error) {
             showMessage('eventMessage', '❌ Gagal menyimpan data event', 'error');
-            console.error(error);
         }
     });
 
@@ -671,25 +735,129 @@
         document.getElementById('belumAbsen').value = '0';
     }
 
-    // ============ TAB 2: MATERI ============
+    // ============ TAB 2: MATERI (DENGAN LINK) ============
     async function loadMateriList() {
         try {
             const response = await fetch(`${SCRIPT_URL}?mode=absensi&action=getMateri`);
             const data = await response.json();
             const tbody = document.getElementById('materiBody');
             tbody.innerHTML = '';
+            
             if (Array.isArray(data) && data.length > 0) {
-                data.forEach(item => {
+                data.forEach((item) => {
                     const row = tbody.insertRow();
-                    row.insertCell(0).textContent = item.Materi;
-                    row.insertCell(1).textContent = item.Pemateri;
+                    row.insertCell(0).textContent = item.Materi || '-';
+                    row.insertCell(1).textContent = item.Pemateri || '-';
+                    
+                    // Kolom Link Materi
+                    const linkCell = row.insertCell(2);
+                    if (item.LinkMateri && item.LinkMateri !== '') {
+                        const btnLink = document.createElement('button');
+                        btnLink.textContent = '🔗 Buka Link';
+                        btnLink.className = 'link-icon';
+                        btnLink.onclick = () => {
+                            window.open(item.LinkMateri, '_blank');
+                        };
+                        linkCell.appendChild(btnLink);
+                        // Tambah teks link pendek sebagai tooltip
+                        const shortLink = document.createTextNode(' ' + (item.LinkMateri.length > 40 ? item.LinkMateri.substring(0, 40) + '...' : item.LinkMateri));
+                        linkCell.appendChild(shortLink);
+                    } else {
+                        linkCell.textContent = '-';
+                    }
+                    
+                    // Kolom Aksi
+                    const actionCell = row.insertCell(3);
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.textContent = '🗑️ Hapus';
+                    deleteBtn.className = 'link-icon';
+                    deleteBtn.style.background = '#dc3545';
+                    deleteBtn.onclick = () => deleteMateri(item.Materi);
+                    actionCell.appendChild(deleteBtn);
                 });
             } else {
-                tbody.innerHTML = '<tr><td colspan="2" style="text-align:center;">Belum ada data</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Belum ada data</td></tr>';
             }
         } catch (error) {
             console.error('Error:', error);
+            document.getElementById('materiBody').innerHTML = '<tr><td colspan="4" style="text-align:center;">Gagal memuat data</td></tr>';
         }
+    }
+
+    // Tambah materi baru
+    document.getElementById('materiForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const materi = document.getElementById('materiNama').value.trim();
+        const pemateri = document.getElementById('pemateriNama').value.trim();
+        const linkMateri = document.getElementById('materiLink').value.trim();
+        
+        if (!materi || !pemateri) {
+            showMessage('materiMessage', '❌ Materi dan Pemateri harus diisi!', 'error');
+            return;
+        }
+        
+        try {
+            const response = await fetch(SCRIPT_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    action: 'addMateri',
+                    materi: materi,
+                    pemateri: pemateri,
+                    linkMateri: linkMateri
+                })
+            });
+            
+            const result = await response.json();
+            if (result.success) {
+                showMessage('materiMessage', `✅ Materi "${materi}" berhasil ditambahkan!`, 'success');
+                document.getElementById('materiForm').reset();
+                loadMateriList();
+                loadMateriOptions(); // Refresh dropdown di form event
+            } else {
+                showMessage('materiMessage', '❌ Gagal: ' + (result.error || 'Unknown error'), 'error');
+            }
+        } catch (error) {
+            showMessage('materiMessage', '❌ Gagal menambahkan materi', 'error');
+            console.error(error);
+        }
+    });
+
+    // Hapus materi
+    async function deleteMateri(materi) {
+        Swal.fire({
+            title: 'Hapus Materi?',
+            text: `Apakah Anda yakin ingin menghapus materi "${materi}"?`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#dc3545',
+            confirmButtonText: 'Ya, Hapus!',
+            cancelButtonText: 'Batal'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const response = await fetch(SCRIPT_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            action: 'deleteMateri',
+                            materi: materi
+                        })
+                    });
+                    const data = await response.json();
+                    if (data.success) {
+                        Swal.fire('Terhapus!', `Materi "${materi}" telah dihapus.`, 'success');
+                        loadMateriList();
+                        loadMateriOptions();
+                    } else {
+                        Swal.fire('Gagal!', data.error || 'Gagal menghapus materi', 'error');
+                    }
+                } catch (error) {
+                    Swal.fire('Error!', 'Terjadi kesalahan saat menghapus', 'error');
+                }
+            }
+        });
     }
 
     // ============ TAB 3: PESERTA ============
@@ -699,8 +867,9 @@
             const data = await response.json();
             const tbody = document.getElementById('pesertaBody');
             tbody.innerHTML = '';
+            
             if (Array.isArray(data) && data.length > 0) {
-                data.forEach(item => {
+                data.forEach((item) => {
                     const row = tbody.insertRow();
                     row.insertCell(0).textContent = item.QRToken;
                     row.insertCell(1).textContent = item.Nama;
@@ -708,7 +877,7 @@
                     row.insertCell(3).textContent = item.Ranting;
                 });
             } else {
-                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Belum ada data</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Belum ada data peserta</td></tr>';
             }
         } catch (error) {
             console.error('Error:', error);
@@ -722,6 +891,7 @@
             const data = await response.json();
             const select = document.getElementById('qrPesertaSelect');
             select.innerHTML = '<option value="">-- Pilih Peserta --</option>';
+            
             if (Array.isArray(data)) {
                 data.forEach(item => {
                     select.innerHTML += `<option value="${item.QRToken}" data-nama="${item.Nama}" data-pac="${item.PAC}" data-ranting="${item.Ranting}">${item.Nama} - ${item.PAC} - ${item.Ranting}</option>`;
@@ -736,19 +906,32 @@
         const select = document.getElementById('qrPesertaSelect');
         const token = select.value;
         const nama = select.options[select.selectedIndex]?.getAttribute('data-nama') || '';
+        
         if (!token) {
             Swal.fire('Peringatan', 'Pilih peserta terlebih dahulu', 'warning');
             return;
         }
+        
         currentQRData = { token, nama };
         const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(token)}`;
-        document.getElementById('qrResult').innerHTML = `<img src="${qrUrl}"><p><strong>${nama}</strong><br>Token: ${token}</p>`;
+        
+        document.getElementById('qrResult').innerHTML = `
+            <img src="${qrUrl}" alt="QR Code">
+            <p><strong>${nama}</strong><br>Token: ${token}</p>
+        `;
     }
 
     function printQR() {
         const qrContent = document.getElementById('qrResult').innerHTML;
         const printWindow = window.open('', '_blank');
-        printWindow.document.write(`<html><head><title>Cetak QR Code</title></head><body style="display:flex;justify-content:center;align-items:center;height:100vh;flex-direction:column;">${qrContent}</body></html>`);
+        printWindow.document.write(`
+            <html>
+            <head><title>Cetak QR Code</title></head>
+            <body style="display:flex;justify-content:center;align-items:center;height:100vh;flex-direction:column;">
+                ${qrContent}
+            </body>
+            </html>
+        `);
         printWindow.print();
     }
 
@@ -771,18 +954,44 @@
         try {
             const response = await fetch(`${SCRIPT_URL}?mode=absensi&action=getPesertaByToken&token=${encodeURIComponent(qrToken)}`);
             const peserta = await response.json();
+            
             if (peserta.error || !peserta.Nama) {
-                Swal.fire({ icon: 'error', title: 'QR Code Tidak Valid!', text: 'Peserta tidak ditemukan.', confirmButtonColor: '#1f7046' });
+                Swal.fire({
+                    icon: 'error',
+                    title: 'QR Code Tidak Valid!',
+                    text: 'Peserta tidak ditemukan dalam database.',
+                    confirmButtonColor: '#1f7046'
+                });
                 return false;
             }
+            
             const now = new Date();
             const jamAbsen = now.toLocaleTimeString('id-ID');
             const timestampFull = now.toISOString();
-            const absensiData = { action: 'saveAbsensi', nama: peserta.Nama, pac: peserta.PAC, ranting: peserta.Ranting, jam: jamAbsen, timestampFull: timestampFull, qrToken: qrToken };
             
-            await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(absensiData) });
+            const absensiData = {
+                action: 'saveAbsensi',
+                nama: peserta.Nama,
+                pac: peserta.PAC,
+                ranting: peserta.Ranting,
+                jam: jamAbsen,
+                timestampFull: timestampFull,
+                qrToken: qrToken
+            };
             
-            Swal.fire({ icon: 'success', title: '✅ Absen Berhasil!', html: `<strong>${peserta.Nama}</strong><br>PAC: ${peserta.PAC}<br>Ranting: ${peserta.Ranting}<br>Jam: ${jamAbsen}`, confirmButtonColor: '#1f7046' });
+            await fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(absensiData)
+            });
+            
+            Swal.fire({
+                icon: 'success',
+                title: '✅ Absen Berhasil!',
+                html: `<strong>${peserta.Nama}</strong><br>PAC: ${peserta.PAC}<br>Ranting: ${peserta.Ranting}<br>Jam: ${jamAbsen}`,
+                confirmButtonColor: '#1f7046'
+            });
             
             const lastScanDiv = document.getElementById('lastScanResult');
             const lastScanInfo = document.getElementById('lastScanInfo');
@@ -792,7 +1001,7 @@
             loadAbsensi();
             return true;
         } catch (error) {
-            Swal.fire({ icon: 'error', title: 'Gagal!', text: 'Terjadi kesalahan.', confirmButtonColor: '#1f7046' });
+            Swal.fire({ icon: 'error', title: 'Gagal!', text: 'Terjadi kesalahan saat menyimpan absensi.', confirmButtonColor: '#1f7046' });
             return false;
         }
     }
@@ -821,7 +1030,7 @@
             }
         }).catch(err => {
             console.log("Start scanner error:", err);
-            document.getElementById('scannerStatus').innerHTML = '❌ Gagal memulai kamera. Pastikan izin kamera diberikan.';
+            document.getElementById('scannerStatus').innerHTML = '❌ Gagal memulai kamera. Pastikan HTTPS dan izin kamera diberikan.';
         });
         scannerActive = true;
         isScanning = true;
